@@ -11,17 +11,17 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mt-2 mb-2">Carreiras em Python</h1>
-        <div class="text-center m-3">
-            <img class="img-fluid rounded-4 text-center" style="max-width: 50%;" src="{{url_for('static', filename='carreira.jpg')}}"/>
+        <h1 class="text-center mt-3 mb-4">Carreiras em Python</h1>
+        <div class="text-center">
+            <img style="width: 100%;height: 400px;object-fit: cover;" class="img-fluid mb-4" src="{{url_for('static', filename='carreira.jpg')}}"/>
         </div>
-        <h2 class="text-center mt2">Sobre o site</h2>
+        <h2 class="text-center mt-2">Sobre o site</h2>
         <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce luctus facilisis turpis at elementum. Nulla sit
             amet ornare odio. Vestibulum gravida tincidunt feugiat. Proin eleifend accumsan massa vel gravida. Proin
             iaculis, ipsum at fermentum viverra, urna libero viverra purus, vitae lobortis urna sem at metus. Etiam commodo
             gravida tortor, ac malesuada urna feugiat tincidunt. Nulla facilisi. Integer at diam ut nibh vehicula vulputate
             at eget lectus.</p>
-        <h2 class="text-center mt2">Vagas Abertas</h2>
+        <h2 class="text-center mt-4 mb-5">Vagas Abertas</h2>
         <p>
             {% for vaga in vagas %}
                 {% include 'includes/vagas_item.html' %}
