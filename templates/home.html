@@ -10,6 +10,7 @@
     <!-- <link rel="stylesheet" href="{{url_for('static', filename='estilo.css')}}"> -->
 </head>
 <body>
+    {% include "includes/navbar.html" %}
     <div class="container">
         <h1 class="text-center mt-3 mb-4">Carreiras em Python</h1>
         <div class="text-center">
@@ -31,5 +32,6 @@
             <button class="btn btn-primary btn-lg m-4">Entrar em Contato com o Luigi</button>
         </div>
     </div>
+    {% include "includes/footer.html" %}
 </body>
 </html>
