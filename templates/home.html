@@ -11,18 +11,45 @@
 </head>
 <body>
     {% include "includes/navbar.html" %}
+    <img style="width: 100%;height: 400px;object-fit: cover;" class="img-fluid mb-4" src="{{url_for('static', filename='cover.jpg')}}"/>
     <div class="container">
-        <h1 class="text-center mt-3 mb-4">Carreiras em Python</h1>
+        <h1 class="text-center mt-3 mb-5">Carreiras em Python</h1>
         <div class="text-center">
-            <img style="width: 100%;height: 400px;object-fit: cover;" class="img-fluid mb-4" src="{{url_for('static', filename='carreira.jpg')}}"/>
+
+
+
         </div>
-        <h2 class="text-center mt-2">Sobre o site</h2>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce luctus facilisis turpis at elementum. Nulla sit
-            amet ornare odio. Vestibulum gravida tincidunt feugiat. Proin eleifend accumsan massa vel gravida. Proin
-            iaculis, ipsum at fermentum viverra, urna libero viverra purus, vitae lobortis urna sem at metus. Etiam commodo
-            gravida tortor, ac malesuada urna feugiat tincidunt. Nulla facilisi. Integer at diam ut nibh vehicula vulputate
-            at eget lectus.</p>
-        <h2 class="text-center mt-4 mb-5">Vagas Abertas</h2>
+        <!-- <h2 class="text-center mt-2">Sobre o site</h2> -->
+        <div style="color: rgb(100,100,100); margin-bottom: 4px; margin-left:30px;" class="row">
+            <div class="col-md-7 ">
+                <h5><strong>Bem-vindo ao Mundo Python: Sua Jornada Rumo ao Sucesso Profissional!</strong></h5>
+                <p>Seja parte de uma comunidade apaixonada por inovação e tecnologia. Nosso site é o ponto de encontro
+                para todos os programadores Python que buscam oportunidades de carreira emocionantes e desafiadoras.
+                Aqui, conectamos talentos como você a empresas inovadoras em busca de especialistas em Python.</p>
+                <p>Por que escolher-nos?</p>
+                <p><strong>Vagas Exclusivas:</strong> Acesse uma ampla gama de oportunidades de emprego dedicadas a
+                programadores Python. De startups promissoras a grandes corporações, oferecemos um leque diversificado de vagas.</p>
+
+                <p><strong>Variedade de Setores:</strong> Não importa se você se interessa por inteligência artificial,
+                desenvolvimento web, análise de dados ou outras áreas fascinantes - temos oportunidades para todos os gostos e
+                especialidades.</p>
+
+                <p><strong>Facilidade de Uso:</strong> Nosso site é intuitivo e fácil de navegar. Encontre as vagas que
+                correspondem ao seu perfil com apenas alguns cliques.</p>
+
+                <p><strong>Recursos Adicionais:</strong> Além das vagas, oferecemos conteúdo exclusivo, dicas de entrevista, e
+                orientações para impulsionar sua carreira como programador Python.</p>
+
+                <p>Junte-se a nós para explorar um mundo de possibilidades. Transforme sua paixão por Python em uma carreira
+                gratificante e emocionante. Estamos aqui para ajudar você a dar o próximo passo em sua jornada profissional.</p>
+                <p>O futuro está na ponta dos seus dedos - comece sua busca por oportunidades incríveis hoje mesmo!</p>
+            </div>
+            <div class="d-none d-md-block col-md-5">
+                <img style="height: 600px;border-radius:10px;margin-left:40px;" src="{{url_for('static', filename='people.jpg')}}" alt="">
+            </div>
+        </div>
+
+        <h2 class="text-center mt-5 mb-5">Vagas Abertas</h2>
         <p>
             {% for vaga in vagas %}
                 {% include 'includes/vagas_item.html' %}
