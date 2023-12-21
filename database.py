@@ -5,7 +5,7 @@ import os
 database = "python_sitecarreiras_flask"
 username = "no0m6cfwb9kl71wtj5no"
 host = "aws.connect.psdb.cloud"
-password = os.environ['DB_Secret']
+password = os.environ.get('DB_Secret')
 
 db_connection_string = f"mysql+pymysql://{username}:{password}@{host}/{database}?charset=utf8mb4"
 
