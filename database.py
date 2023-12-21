@@ -1,6 +1,9 @@
 import sqlalchemy
 from sqlalchemy import create_engine, text
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 database = "python_sitecarreiras_flask"
 username = "no0m6cfwb9kl71wtj5no"
