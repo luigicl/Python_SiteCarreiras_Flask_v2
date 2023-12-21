@@ -1,7 +1,6 @@
 from flask import Flask, render_template, url_for, jsonify
 from sqlalchemy import text
 from database import engine
-from babel.numbers import format_number, format_decimal, format_compact_decimal, format_percent
 
 app = Flask(__name__)
 
