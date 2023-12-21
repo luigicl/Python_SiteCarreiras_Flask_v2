@@ -1,10 +1,13 @@
 import sqlalchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
+import os
+
+print(os.environ['DB_Secret'])
 
 database = "python_sitecarreiras_flask"
 username = "no0m6cfwb9kl71wtj5no"
 host = "aws.connect.psdb.cloud"
-password = "pscale_pw_b7A9Lw3EBU1wox9alzcJSv3pSg0Zu2yNIy0WNIQ5mf9"
+password = os.environ['DB_Secret']
 
 db_connection_string = f"mysql+pymysql://{username}:{password}@{host}/{database}?charset=utf8mb4"
 
@@ -16,6 +19,13 @@ engine = create_engine(
         }})
 
 
+def load_jobs_from_db():
+    with engine.connect() as conn:
+        jobs = []
+        result = conn.execute(text("SELECT * from jobs"))
+        for row in result.all():
+            jobs.append(row._asdict())
+        return jobs
 
 
 
