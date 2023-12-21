@@ -4,15 +4,15 @@
     </div>
     <div class="col-5">
         <h4 style="color: rgb(100,100,100); margin-bottom: 4px;">
-        {{vaga.titulo}}
+        {{vaga.title}}
         </h4>
         <div>
             <strong>Localidade: </strong>
-            {{vaga.localidade}}
+            {{vaga.location}}
         </div>
         <div class="mb-3">
             <strong>Salário: </strong>
-            {{vaga.salario}}
+            {{vaga.currency}}{{ " {}".format(vaga.salary) }}
         </div>
     </div>
     <div class="col-4 mt-3">
