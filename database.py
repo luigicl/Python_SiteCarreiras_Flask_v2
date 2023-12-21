@@ -2,8 +2,6 @@ import sqlalchemy
 from sqlalchemy import create_engine, text
 import os
 
-print(os.environ['DB_Secret'])
-
 database = "python_sitecarreiras_flask"
 username = "no0m6cfwb9kl71wtj5no"
 host = "aws.connect.psdb.cloud"
