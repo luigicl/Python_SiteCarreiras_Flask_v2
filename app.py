@@ -19,6 +19,8 @@ def listar_vagas():
 @app.route("/vaga/<id>")
 def mostrar_vaga(id):
     vaga = load_job_from_db(id)
+    if not vaga:
+        return "Vaga não encontrada", 404
     return render_template("vaga.html", vaga=vaga)
 
 
