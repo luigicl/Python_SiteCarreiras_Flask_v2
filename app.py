@@ -21,7 +21,7 @@ def mostrar_vaga(id):
     vaga = load_job_from_db(id)
     if not vaga:
         return "Vaga não encontrada", 404
-    return render_template("vaga.html", vaga=vaga)
+    return render_template("includes/vaga.html", vaga=vaga)
 
 
 if __name__ == "__main__":
