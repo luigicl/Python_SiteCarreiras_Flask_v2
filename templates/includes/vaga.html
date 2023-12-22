@@ -12,13 +12,24 @@
     <h1 class="text-center mt-3 mb-5">Detalhes da Vaga</h1>
         <h2 class="mb-5">{{vaga.title}}</h2>
         <h3>Responsabilidades</h3>
-        <p class="lead mb-5">{{vaga.responsabilities}}</p>
+        <ul class="lead mb-5">
+            {% for line in vaga.responsabilities.split(".") %}
+            <li>{{line}}</li>
+            {% endfor %}
+        </ul>
         <h3>Requisitos</h3>
-        <p class="lead mb-5">{{vaga.requirements}}</p>
+        <ul class="lead mb-5">
+            {% for line in vaga.requirements.split(".") %}
+            <li>{{line}}</li>
+            {% endfor %}
+        </ul>
         <h3>Localidade</h3>
         <p class="lead mb-5">{{vaga.location}}</p>
         <h3>Salário</h3>
         <p class="lead mb-5">{{vaga.currency}} {{vaga.salary}}</p>
+        <div class="text-center">
+            <a href="/#teste" type="button" class="btn btn-outline-primary">Voltar</a>
+        </div>
     </div>
     {% include "includes/footer.html" %}
 </body>
