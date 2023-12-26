@@ -39,6 +39,23 @@ def load_job_from_db(id):
             return rows[0]._asdict()
 
 
+def add_application_to_db(job_id, application, apply_date):
+    chars_to_remove = ["'", '"']
+    comments = str(application['comments'])
+    for char in chars_to_remove:
+        comments = comments.replace(char, "")
+    with engine.connect() as conn:
+        query = text("INSERT INTO applications (job_id, full_name, email, linkedin_url, github_url, comments, "
+                     "created_at, updated_at) VALUES (:job_id, :full_name, :email, :linkedin_url, :github_url, "
+                     ":comments, :created_at, :updated_at)")
+        query = text(
+            f"INSERT INTO applications (job_id, full_name, email, linkedin_url, github_url, comments,"
+            f"created_at, updated_at)"
+            f"VALUES ('{job_id}', '{application['full_name']}', '{application['email']}', '{application['linkedin']}',"
+            f"'{application['github']}', '{comments}', '{apply_date}', '{apply_date}')")
+        conn.execute(query)
+
+
 
 
 
