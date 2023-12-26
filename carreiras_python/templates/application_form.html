@@ -10,26 +10,15 @@
     {% include "includes/banner.html" %}
 
     <div class="container">
-    <h3 class="text-center mt-3 mb-0">Inscrição para vaga de <b>"{{vaga.title}}"</b> </h3>
-        <p class="text-center mb-3">v{{vaga.id}}</p>
-
-<!--        {% if scroll %}-->
-<!--            <script>-->
-<!--                document.location.hash = '{{ scroll }}';-->
-<!--            </script>-->
-<!--        {% endif %}-->
-
+        <h3 class="text-center mt-3 mb-0">Inscrição para vaga de <b>"{{vaga.title}}"</b> </h3>
+            <p class="text-center mb-3">v{{vaga.id}}</p>
 
         {% block formulario %}
             <form method="POST"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
-
                 <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6">
-
-
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
+                    <div class="col-lg-8 col-md-6 col-sm-8 col-xs-9">
                         {{ form.csrf_token }}  <!-- trava de segurança contra ataques, obrigatório carregar no flask -->
-
                         <ul>
                             {% if form.email.errors %}
                                 {% for erro in form.email.errors %}
@@ -49,8 +38,6 @@
                                 {% endfor %}
                             {% endif %}
                         </ul>
-
-
                             {{ form.full_name.label(class="form-label") }}
                             {{ form.full_name(class="form-control mb-4", placeholder="Carlos Silva") }}
                             {{ form.email.label(class="form-label") }}
@@ -59,39 +46,16 @@
                             {{ form.linkedin(class="form-control mb-4", placeholder="https://www.linkedin.com/in/seu_perfil/") }}
                             {{ form.github.label(class="form-label") }}
                             {{ form.github(class="form-control mb-4", placeholder="https://github.com/seu_perfil/") }}
-
                             {{ form.comments.label(class="form-label") }}
                             {{ form.comments(class="form-control", rows="5") }}
                             <div id="passwordHelpBlock" class="form-text mb-5">
                                 Máximo de 1000 caracteres.
                             </div>
                             {{ form.confirmation_button(class="btn btn-primary btn-lg mb-4") }}
-
-
-
-                </div>
-                    <div class="col-3">
-
-
                     </div>
-
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
                 </div>
-
-
-                <div class="row">
-
-
-                </div>
-
-
-
-                <div class="row">
-                    <div class="col-12">
-
-
-                    </div>
-
-                </div>
-
             </form>
         {% endblock %}
+    </div>
+</body>
