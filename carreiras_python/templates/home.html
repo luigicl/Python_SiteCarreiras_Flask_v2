@@ -42,13 +42,13 @@
             <div class="d-none d-md-block col-md-5 mb-5">
                 <img style="height: 600px;border-radius:10px;margin-left:20px;" src="{{url_for('static', filename='people.jpg')}}" alt="">
             </div>
-            <hr class="mt-5 mb-5" id="teste">
+            <hr class="mt-5 mb-5" id="vagas_abertas">
         </div>
 
         <h2 class="text-center mt-5 mb-5" >Vagas Abertas</h2>
         <p>
             {% for vaga in vagas %}
-                {% include 'includes/vagas_item.html' %}
+                {% include 'includes/job_item.html' %}
             {% endfor %}
         </p>
         <div class="text-center">

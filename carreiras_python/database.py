@@ -23,7 +23,7 @@ engine = create_engine(
 def load_jobs_from_db():
     with engine.connect() as conn:
         jobs = []
-        result = conn.execute(text("SELECT * from jobs"))
+        result = conn.execute(text("SELECT * from jobs ORDER BY title"))
         for row in result.all():
             jobs.append(row._asdict())
         return jobs

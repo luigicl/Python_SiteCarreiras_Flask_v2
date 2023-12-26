@@ -27,9 +27,12 @@
         <p class="lead mb-5">{{vaga.location}}</p>
         <h3>Salário</h3>
         <p class="lead mb-5">{{vaga.currency}} {{vaga.salary}}</p>
+
         <div class="text-center">
-            <a href="/#teste" type="button" class="btn btn-outline-primary">Voltar</a>
+            <a href="{{ url_for('fazer_inscricao', id=vaga.id) }}" type="button" class="btn btn-primary mb-4">Inscrever-se</a>
+            <a href="/#vagas_abertas" type="button" class="btn btn-outline-primary mb-4">Voltar</a>
         </div>
+
     </div>
     {% include "includes/footer.html" %}
 </body>
