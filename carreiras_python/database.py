@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 database = "python_sitecarreiras_flask"
-username = "no0m6cfwb9kl71wtj5no"
+username = "sut2gsr6aszh2tgb8s92"
 host = "aws.connect.psdb.cloud"
 password = os.environ.get('DB_Secret')
 
