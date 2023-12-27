@@ -19,10 +19,6 @@ def listar_vagas():
 
 @app.route("/vaga/<id>", methods=["GET", "POST"])
 def mostrar_vaga(id):
-    # vaga = load_job_from_db(id)
-    # if not vaga:
-    #     return "Vaga não encontrada", 404
-    # return render_template("includes/job_page.html", vaga=vaga)
     vaga = load_job_from_db(id)
     if not vaga:
         return "Vaga não encontrada", 404
@@ -54,12 +50,3 @@ def buscar_inscricoes():
 def minhas_inscricoes(email):
     inscricoes = load_applications(email)
     return inscricoes
-
-
-@app.route("/teste")
-def teste():
-    return render_template("teste.html")
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
