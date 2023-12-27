@@ -7,7 +7,7 @@ load_dotenv()
 database = "python_sitecarreiras_flask"
 username = "sut2gsr6aszh2tgb8s92"
 host = "aws.connect.psdb.cloud"
-password = os.environ.get('DB_Secret')
+password = os.getenv('DB_Secrets')
 
 db_connection_string = f"mysql+pymysql://{username}:{password}@{host}/{database}?charset=utf8mb4"
 
