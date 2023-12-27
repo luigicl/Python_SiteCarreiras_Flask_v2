@@ -7,8 +7,8 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationE
 class FormApplication(FlaskForm):
     email = StringField("E-mail", validators=[DataRequired(), Email(message="Verifique o e-mail digitado")])
     full_name = StringField("Nome completo", validators=[DataRequired()])
-    linkedin = StringField("Linkedin", validators=[DataRequired(), URL(message="Verifique a URL do Linkedin digitada")])
-    github = StringField("Github", validators=[DataRequired(), URL(message="Verifique a URL do Github digitada")])
+    linkedin = StringField("Linkedin", validators=[URL(message="Verifique a URL do Linkedin digitada")])
+    github = StringField("Github", validators=[URL(message="Verifique a URL do Github digitada")])
     comments = TextAreaField("Fale sobre você", validators=[length(max=1000)])
     confirmation_button = SubmitField("Inscrever-se")
 
