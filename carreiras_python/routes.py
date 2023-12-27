@@ -47,7 +47,6 @@ def buscar_inscricoes():
     if formSearchApplications.validate_on_submit():
         email = request.form['email']  # executa após submeter o formulário
         inscricoes = minhas_inscricoes(email)
-        print(inscricoes)
         return render_template("my_applications.html", applications=inscricoes)
     return render_template("load_applications.html", form=formSearchApplications)
 
