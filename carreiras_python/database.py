@@ -1,4 +1,3 @@
-import sqlalchemy
 from sqlalchemy import create_engine, text
 import os
 from dotenv import load_dotenv
@@ -39,27 +38,24 @@ def load_job_from_db(id):
             return rows[0]._asdict()
 
 
-def add_application_to_db(job_id, application, apply_date):
+def add_application_to_db(job_id, application, apply_date, job_title):
     chars_to_remove = ["'", '"']
     comments = str(application['comments'])
     for char in chars_to_remove:
         comments = comments.replace(char, "")
     with engine.connect() as conn:
-        query = text("INSERT INTO applications (job_id, full_name, email, linkedin_url, github_url, comments, "
-                     "created_at, updated_at) VALUES (:job_id, :full_name, :email, :linkedin_url, :github_url, "
-                     ":comments, :created_at, :updated_at)")
         query = text(
-            f"INSERT INTO applications (job_id, full_name, email, linkedin_url, github_url, comments,"
+            f"INSERT INTO applications (job_id, job_title, full_name, email, linkedin_url, github_url, comments,"
             f"created_at, updated_at)"
-            f"VALUES ('{job_id}', '{application['full_name']}', '{application['email']}', '{application['linkedin']}',"
+            f"VALUES ('{job_id}', '{job_title}', '{application['full_name']}', '{application['email']}', '{application['linkedin']}',"
             f"'{application['github']}', '{comments}', '{apply_date}', '{apply_date}')")
         conn.execute(query)
 
 
-
-
-
-
-
-
-
+def load_applications(email):
+    with engine.connect() as conn:
+        applications = []
+        result = conn.execute(text(f"SELECT * FROM applications WHERE email = '{email}' ORDER BY created_at DESC"))
+        for application in result.all():
+            applications.append(application._asdict())
+        return applications

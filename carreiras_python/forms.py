@@ -4,7 +4,7 @@ from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, URL, length
 
 
-class FormLogin(FlaskForm):
+class FormApplication(FlaskForm):
     email = StringField("E-mail", validators=[DataRequired(), Email(message="Verifique o e-mail digitado")])
     full_name = StringField("Nome completo", validators=[DataRequired()])
     linkedin = StringField("Linkedin", validators=[DataRequired(), URL(message="Verifique a URL do Linkedin digitada")])
@@ -16,5 +16,10 @@ class FormLogin(FlaskForm):
     #     usuario = Usuario.query.filter_by(email=email.data).first()  # campo email da classe Usuario
     #     if not usuario:
     #         raise ValidationError("Usuário inexistente. Crie uma conta para continuar.")
+
+
+class FormSearchApplications(FlaskForm):
+    email = StringField("E-mail", validators=[DataRequired(), Email(message="Verifique o e-mail digitado")])
+    confirmation_button = SubmitField("Buscar")
 
 

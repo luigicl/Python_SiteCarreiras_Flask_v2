@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, redirect, url_for, request
 from carreiras_python import app
-from carreiras_python.database import load_jobs_from_db, load_job_from_db, add_application_to_db
-from carreiras_python.forms import FormLogin
+from carreiras_python.database import load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications
+from carreiras_python.forms import FormApplication, FormSearchApplications
 from datetime import datetime
 
 
@@ -32,13 +32,29 @@ def mostrar_vaga(id):
 @app.route("/inscricao/<id>", methods=["GET", "POST"])
 def fazer_inscricao(id):
     vaga = load_job_from_db(id)
-    formlogin = FormLogin()
-    if formlogin.validate_on_submit():  # executa após submeter o formulário
+    formApplication = FormApplication()
+    if formApplication.validate_on_submit():  # executa após submeter o formulário
         data = request.form
         date = datetime.now()
-        add_application_to_db(id, data, date)
+        add_application_to_db(id, data, date, vaga['title'])
         return render_template("apply_confirmation.html", application=data, vaga=vaga, date=date)
-    return render_template("application_form.html", form=formlogin, vaga=vaga)
+    return render_template("application_form.html", form=formApplication, vaga=vaga)
+
+
+@app.route("/buscar_inscricoes", methods=["GET", "POST"])
+def buscar_inscricoes():
+    formSearchApplications = FormSearchApplications()
+    if formSearchApplications.validate_on_submit():
+        email = request.form['email']  # executa após submeter o formulário
+        inscricoes = minhas_inscricoes(email)
+        print(inscricoes)
+        return render_template("my_applications.html", applications=inscricoes)
+    return render_template("load_applications.html", form=formSearchApplications)
+
+
+def minhas_inscricoes(email):
+    inscricoes = load_applications(email)
+    return inscricoes
 
 
 @app.route("/teste")
