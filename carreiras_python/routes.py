@@ -1,14 +1,21 @@
 from flask import Flask, render_template, jsonify, redirect, url_for, request
 from carreiras_python import app
-from carreiras_python.database import load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications
-from carreiras_python.forms import FormApplication, FormSearchApplications
+from carreiras_python.database import load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications, jobs_search
+from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs
 from datetime import datetime
+
+
+# Passando informações para a navbar
+@app.context_processor
+def sender():
+    form = FormSearchJobs()
+    return dict(form=form)
 
 
 @app.route("/")
 def homepage():
     jobs_list = load_jobs_from_db()
-    return render_template("home.html", vagas=jobs_list)
+    return render_template("home.html", jobs=jobs_list)
 
 
 @app.route("/vagas")
@@ -50,3 +57,17 @@ def buscar_inscricoes():
 def minhas_inscricoes(email):
     inscricoes = load_applications(email)
     return inscricoes
+
+
+@app.route("/busca", methods=["POST"])
+def search_jobs():
+    form = FormSearchJobs()
+    if form.validate_on_submit():
+        searched_terms = form.search.data
+        jobs = jobs_search(searched_terms)
+        return render_template('search.html', form=form, jobs=jobs)
+    # query = request.get('search')  # try this instead
+    # request.
+    #
+    # req_search = Storage.query.filter_by(req_no=query)
+    # return render_template('search.html', req_search=req_search)

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Busca de vagas - Carreiras Python</title>
+    {% include 'includes/bootstrap.html' %}
+</head>
+<body>
+    {% include "includes/navbar.html" %}
+    {% include "includes/banner.html" %}
+    <div class="container">
+        <h3 class="text-center mt-3 mb-0">Busca de vagas</h3>
+        {% for job in jobs %}
+            {% include 'includes/job_item.html' %}
+        {% endfor %}
+    </div>
+    <br><br>
+    {% include "includes/footer.html" %}
+</body>
+</html>

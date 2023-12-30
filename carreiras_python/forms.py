@@ -21,3 +21,8 @@ class FormSearchApplications(FlaskForm):
     def validate_email(self, email):  # o nome da função tem que ser validate_nomedocampo a ser validado
         if not len(load_applications(email.data)):
             raise ValidationError("Não inscrições para o e-mail informado.")
+
+
+class FormSearchJobs(FlaskForm):
+    search = StringField("Busca", validators=[DataRequired()])
+    search_button = SubmitField("Buscar")

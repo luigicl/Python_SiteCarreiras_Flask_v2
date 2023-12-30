@@ -17,8 +17,9 @@
           <a class="nav-link active" href="/buscar_inscricoes">Minhas inscrições</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Pesquisar..." aria-label="Search">
+      <form method="POST" action="{{url_for('search_jobs')}}" class="d-flex" role="search">
+        {{ form.hidden_tag() }}
+        <input class="form-control me-2" type="search" placeholder="Pesquisar vagas..." aria-label="Search" name="search">
         <button class="btn btn-outline-primary" type="submit">Pesquisar</button>
       </form>
     </div>

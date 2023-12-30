@@ -59,3 +59,13 @@ def load_applications(email):
         for application in result.all():
             applications.append(application._asdict())
         return applications
+
+
+def jobs_search(serched_terms):
+    with engine.connect() as conn:
+        jobs = []
+        search_string = "%" + serched_terms + "%"
+        result = conn.execute(text(f"SELECT * FROM jobs WHERE title LIKE '{search_string}' ORDER BY title"))
+        for job in result.all():
+            jobs.append(job._asdict())
+        return jobs
