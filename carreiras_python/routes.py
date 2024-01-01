@@ -66,8 +66,5 @@ def search_jobs():
         searched_terms = form.search.data
         jobs = jobs_search(searched_terms)
         return render_template('search.html', form=form, jobs=jobs)
-    # query = request.get('search')  # try this instead
-    # request.
-    #
-    # req_search = Storage.query.filter_by(req_no=query)
-    # return render_template('search.html', req_search=req_search)
+    if not form.validate_on_submit():
+        return render_template('search.html', form=form, jobs="")

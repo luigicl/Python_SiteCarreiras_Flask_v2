@@ -61,11 +61,31 @@ def load_applications(email):
         return applications
 
 
-def jobs_search(serched_terms):
+def jobs_search(searched_terms):
+    search_string = normalize_searched_terms(searched_terms)
     with engine.connect() as conn:
         jobs = []
-        search_string = "%" + serched_terms + "%"
-        result = conn.execute(text(f"SELECT * FROM jobs WHERE title LIKE '{search_string}' ORDER BY title"))
+        result = conn.execute(text(search_string))
         for job in result.all():
             jobs.append(job._asdict())
         return jobs
+
+
+def normalize_searched_terms(searched_terms):
+    words = searched_terms.split(" ")
+    filtered = []  # words with more than 2 letters
+    for word in words:  # to remove words with less than 3 words
+        if len(word) >= 3:
+            filtered.append(word)
+    if len(filtered) == 0:
+        return "SELECT * FROM jobs WHERE title LIKE 'aaaaaaaaaaaaaaa'"
+    string_query = f"SELECT * FROM jobs WHERE "
+    for i, word in enumerate(filtered, start=1):
+        if len(filtered) == 1:
+            string_query = string_query + f"title LIKE '%{word}%'"
+            return string_query
+        if len(filtered) > 1 and i < len(filtered):
+            string_query = string_query + f"title LIKE '%{word}%'" + " OR "
+        if 1 < len(filtered) == i:
+            string_query = string_query + f"title LIKE '%{word}%'"
+            return string_query
