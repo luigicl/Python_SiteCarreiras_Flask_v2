@@ -11,9 +11,7 @@ class GoogleDriveService:
     def __init__(self):
         self._SCOPES = ['https://www.googleapis.com/auth/drive']
         _base_path = os.path.dirname(__file__)
-        # _credential_path = os.path.join(_base_path, r'carreiras_python\service_account.json')
-        _credential_path = 'carreiras_python/service_account.json'
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _credential_path
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'service_account.json'
 
     def build(self):
         creds = ServiceAccountCredentials.from_json_keyfile_name(os.getenv(

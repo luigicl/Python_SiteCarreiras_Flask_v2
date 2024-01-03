@@ -161,4 +161,5 @@ cython_debug/
 
 teste.py
 misc/
-/carreiras_python/service_account.json
+/service_account.json
+
