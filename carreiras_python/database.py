@@ -40,7 +40,6 @@ def load_job_from_db(id):
 
 
 def add_application_to_db(job_id, application, apply_date, job_title, uploaded_resume_id):
-    # TODO incluir resume_id na query
     chars_to_remove = ["'", '"']
     comments = str(application['comments'])
     for char in chars_to_remove:
