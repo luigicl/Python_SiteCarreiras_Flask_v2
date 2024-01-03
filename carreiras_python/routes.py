@@ -38,14 +38,14 @@ def apply_to_job(id):
     job = load_job_from_db(id)
     formApplication = FormApplication()
     if formApplication.validate_on_submit():  # executa após submeter o formulário
-        data = request.form
+        data = formApplication
         resume_file = formApplication.resume.data
         date = datetime.now()
         file_name = formApplication.email.data + "_" + date.strftime("%Y%m%d%H%M%S") + "_jobID_" + str(job['id'])
         uploaded_resume_id = upload_file(resume_file, file_name)
         add_application_to_db(id, data, date, job['title'], uploaded_resume_id)
-        return render_template("apply_confirmation.html", application=data, vaga=job, date=date)
-    return render_template("application_form.html", form=formApplication, vaga=job)
+        return render_template("apply_confirmation.html", application=data, job=job, date=date)
+    return render_template("application_form.html", form=formApplication, job=job)
 
 
 @app.route("/buscar_inscricoes", methods=["GET", "POST"])

@@ -11,23 +11,26 @@
     {% include "includes/banner.html" %}
 
     <div class="container">
-        <h3 class="text-center mt-3 mb-0">Inscrição confirmada para a vaga de <b>"{{vaga.title}}"</b> </h3>
-            <p class="text-center mb-3">v{{vaga.id}}</p>
+        <h3 class="text-center mt-3 mb-0">Inscrição confirmada para a vaga de <b>"{{job.title}}"</b> </h3>
+            <p class="text-center mb-3">v{{job.id}}</p>
 
         <h5 class="mb-0">Nome completo</h5>
-        <div class="lead mb-4">{{ application["full_name"] }}</div>
+        <div class="lead mb-4">{{ application.full_name.data }}</div>
 
         <h5 class="mb-0">E-mail</h5>
-        <div class="lead mb-4">{{ application["email"] }}</div>
+        <div class="lead mb-4">{{ application.email.data }}</div>
 
         <h5 class="mb-0">Linkedin</h5>
-        <div class="lead mb-4">{{ application["linkedin"] }}</div>
+        <div class="lead mb-4">{{ application.linkedin.data }}</div>
 
         <h5 class="mb-0">Github</h5>
-        <div class="lead mb-4">{{ application["github"] }}</div>
+        <div class="lead mb-4">{{ application.github.data }}</div>
+
+        <h5 class="mb-0">Currículo</h5>
+        <div class="lead mb-4">{{ application.resume.data.filename }}</div>
 
         <h5 class="mb-0">Sobre você</h5>
-        <div class="lead mb-4">{{ application["comments"] }}</div>
+        <div class="lead mb-4">{{ application.comments.data }}</div>
 
         <h5 class="mb-0">Inscrição realizada em</h5>
         <div class="lead mb-4">{{ date.strftime("%d/%m/%Y às %H:%M") }}</div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{vaga.title}} - Carreiras Python</title>
+    <title>{{job.title}} - Carreiras Python</title>
     {% include 'includes/bootstrap.html' %}
 </head>
 <body>
@@ -10,8 +10,8 @@
     {% include "includes/banner.html" %}
 
     <div class="container">
-        <h3 class="text-center mt-3 mb-0">Inscrição para vaga de <b>"{{vaga.title}}"</b> </h3>
-            <p class="text-center mb-3"><i>v{{vaga.id}}</i></p>
+        <h3 class="text-center mt-3 mb-0">Inscrição para vaga de <b>"{{job.title}}"</b> </h3>
+            <p class="text-center mb-3"><i>v{{job.id}}</i></p>
         {% block formulario %}
             <form class="lead" method="POST" enctype="multipart/form-data"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
                 <div class="row">
@@ -53,7 +53,7 @@
                                 Máximo de 1000 caracteres.
                             </div>
                             {{ form.confirmation_button(class="btn btn-primary mb-4") }}
-                            <a href="{{ url_for('show_job', id=vaga.id) }}" type="button" class="btn btn-outline-primary mb-4">Voltar</a>
+                            <a href="{{ url_for('show_job', id=job.id) }}" type="button" class="btn btn-outline-primary mb-4">Voltar</a>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
                 </div>

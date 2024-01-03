@@ -41,15 +41,15 @@ def load_job_from_db(id):
 
 def add_application_to_db(job_id, application, apply_date, job_title, uploaded_resume_id):
     chars_to_remove = ["'", '"']
-    comments = str(application['comments'])
+    comments = str(application.comments.data)
     for char in chars_to_remove:
         comments = comments.replace(char, "")
     with engine.connect() as conn:
         query = text(
             f"INSERT INTO applications (job_id, job_title, full_name, email, linkedin_url, github_url, comments,"
             f"resume_id, created_at, updated_at)"
-            f"VALUES ('{job_id}', '{job_title}', '{application['full_name']}', '{application['email']}',"
-            f"'{application['linkedin']}', '{application['github']}', '{comments}', '{uploaded_resume_id}', "
+            f"VALUES ('{job_id}', '{job_title}', '{application.full_name.data}', '{application.email.data}',"
+            f"'{application.linkedin.data}', '{application.github.data}', '{comments}', '{uploaded_resume_id}', "
             f"'{apply_date}', '{apply_date}')")
         conn.execute(query)
 
