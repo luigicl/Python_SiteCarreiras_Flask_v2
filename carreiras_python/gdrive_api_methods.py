@@ -36,7 +36,6 @@ class GoogleDriveService:
             fields=returned_fields
         ).execute()
         file_id = request.get("id")
-        print(request)
         return file_id
 
     def delete_file(self, file_id):

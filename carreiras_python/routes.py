@@ -6,6 +6,7 @@ from carreiras_python.forms import FormApplication, FormSearchApplications, Form
 from datetime import datetime
 from .gdrive_api_methods import GoogleDriveService
 
+
 # Making FormSearchJobs available to NAVBAR (all templates, actually)
 @app.context_processor
 def inject_search_form():
@@ -38,14 +39,15 @@ def apply_to_job(id):
     job = load_job_from_db(id)
     formApplication = FormApplication()
     if formApplication.validate_on_submit():  # executa após submeter o formulário
-        data = formApplication
         resume_file = formApplication.resume.data
         date = datetime.now()
         file_name = formApplication.email.data + "_" + date.strftime("%Y%m%d%H%M%S") + "_jobID_" + str(job['id'])
-        # uploaded_resume_id = upload_file(resume_file, file_name)
-        uploaded_resume_id = GoogleDriveService().upload_file(resume_file, file_name)
-        add_application_to_db(id, data, date, job['title'], uploaded_resume_id)
-        return render_template("apply_confirmation.html", application=data, job=job, date=date)
+        if resume_file:
+            uploaded_resume_id = GoogleDriveService().upload_file(resume_file, file_name)
+        else:
+            uploaded_resume_id = ""
+        add_application_to_db(id, formApplication, date, job['title'], uploaded_resume_id)
+        return render_template("apply_confirmation.html", application=formApplication, job=job, date=date)
     return render_template("application_form.html", form=formApplication, job=job)
 
 
