@@ -13,7 +13,7 @@
         <h3 class="text-center mt-3 mb-0">Inscrição para vaga de <b>"{{vaga.title}}"</b> </h3>
             <p class="text-center mb-3"><i>v{{vaga.id}}</i></p>
         {% block formulario %}
-            <form method="POST"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
+            <form class="lead" method="POST" enctype="multipart/form-data"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
                 <div class="row">
                     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
                     <div class="col-lg-8 col-md-6 col-sm-8 col-xs-9">
@@ -45,13 +45,15 @@
                             {{ form.linkedin(class="form-control mb-4", placeholder="https://www.linkedin.com/in/seu_perfil/") }}
                             {{ form.github.label(class="form-label") }}
                             {{ form.github(class="form-control mb-4", placeholder="https://github.com/seu_perfil/") }}
+                            {{ form.resume.label(class="form-label") }} <small><i>(somente arquivo pdf)</i></small>
+                            {{ form.resume(class="form-control mb-4", placeholder="faça upload do seu currículo...") }}
                             {{ form.comments.label(class="form-label") }}
                             {{ form.comments(class="form-control", rows="5") }}
                             <div id="passwordHelpBlock" class="form-text mb-5">
                                 Máximo de 1000 caracteres.
                             </div>
                             {{ form.confirmation_button(class="btn btn-primary mb-4") }}
-                            <a href="{{ url_for('mostrar_vaga', id=vaga.id) }}" type="button" class="btn btn-outline-primary mb-4">Voltar</a>
+                            <a href="{{ url_for('show_job', id=vaga.id) }}" type="button" class="btn btn-outline-primary mb-4">Voltar</a>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
                 </div>

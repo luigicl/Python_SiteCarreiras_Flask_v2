@@ -1,6 +1,7 @@
 """ FORMULÁRIOS DO SITE """
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, SubmitField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Email, ValidationError, URL, length, Optional
 from carreiras_python.database import load_applications
 
@@ -11,6 +12,7 @@ class FormApplication(FlaskForm):
     linkedin = StringField("Linkedin", validators=[Optional(), URL(message="Verifique a URL do Linkedin digitada")])
     github = StringField("Github", validators=[Optional(), URL(message="Verifique a URL do Github digitada")])
     comments = TextAreaField("Fale sobre você", validators=[length(max=1000)])
+    resume = FileField("Currículo", validators=[FileAllowed(['pdf'], 'Somente arquivo PDF')])
     confirmation_button = SubmitField("Inscrever-se")
 
 

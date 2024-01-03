@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, text
 import os
 from dotenv import load_dotenv
+from .helper_methods import normalize_searched_terms
 
 load_dotenv()
 
@@ -38,7 +39,8 @@ def load_job_from_db(id):
             return rows[0]._asdict()
 
 
-def add_application_to_db(job_id, application, apply_date, job_title):
+def add_application_to_db(job_id, application, apply_date, job_title, uploaded_resume_id):
+    # TODO incluir resume_id na query
     chars_to_remove = ["'", '"']
     comments = str(application['comments'])
     for char in chars_to_remove:
@@ -46,9 +48,10 @@ def add_application_to_db(job_id, application, apply_date, job_title):
     with engine.connect() as conn:
         query = text(
             f"INSERT INTO applications (job_id, job_title, full_name, email, linkedin_url, github_url, comments,"
-            f"created_at, updated_at)"
+            f"resume_id, created_at, updated_at)"
             f"VALUES ('{job_id}', '{job_title}', '{application['full_name']}', '{application['email']}',"
-            f"'{application['linkedin']}', '{application['github']}', '{comments}', '{apply_date}', '{apply_date}')")
+            f"'{application['linkedin']}', '{application['github']}', '{comments}', '{uploaded_resume_id}', "
+            f"'{apply_date}', '{apply_date}')")
         conn.execute(query)
 
 
@@ -63,29 +66,15 @@ def load_applications(email):
 
 def jobs_search(searched_terms):
     search_string = normalize_searched_terms(searched_terms)
-    with engine.connect() as conn:
-        jobs = []
-        result = conn.execute(text(search_string))
-        for job in result.all():
-            jobs.append(job._asdict())
-        return jobs
+    if search_string:
+        with engine.connect() as conn:
+            jobs = []
+            result = conn.execute(text(search_string))
+            for job in result.all():
+                jobs.append(job._asdict())
+            return jobs
+    else:
+        return []
 
 
-def normalize_searched_terms(searched_terms):
-    words = searched_terms.split(" ")
-    filtered = []  # words with more than 2 letters
-    for word in words:  # to remove words with less than 3 words
-        if len(word) >= 3:
-            filtered.append(word)
-    if len(filtered) == 0:
-        return "SELECT * FROM jobs WHERE title LIKE 'aaaaaaaaaaaaaaa'"
-    string_query = f"SELECT * FROM jobs WHERE "
-    for i, word in enumerate(filtered, start=1):
-        if len(filtered) == 1:
-            string_query = string_query + f"title LIKE '%{word}%'"
-            return string_query
-        if len(filtered) > 1 and i < len(filtered):
-            string_query = string_query + f"title LIKE '%{word}%'" + " OR "
-        if 1 < len(filtered) == i:
-            string_query = string_query + f"title LIKE '%{word}%'"
-            return string_query
+
