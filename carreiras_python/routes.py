@@ -4,7 +4,7 @@ from carreiras_python.database import (load_jobs_from_db, load_job_from_db, add_
                                        jobs_search)
 from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs
 from datetime import datetime
-from .gdrive_api_methods import GoogleDriveService
+from carreiras_python.gdrive_api_methods import GoogleDriveService
 
 
 # Making FormSearchJobs available to NAVBAR (all templates, actually)
