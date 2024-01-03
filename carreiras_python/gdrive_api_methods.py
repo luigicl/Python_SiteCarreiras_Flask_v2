@@ -1,42 +1,44 @@
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
-from google.oauth2 import service_account
+from oauth2client.service_account import ServiceAccountCredentials
 import io
+import os
 
-
-SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = 'service_account.json'
 PARENT_FOLDER_ID = "1YptqBEPPfzBj2ynWPupPgouKcCXLGWkC"
 
 
-def __authenticate():
-    creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-    return creds
+class GoogleDriveService:
+    def __init__(self):
+        self._SCOPES = ['https://www.googleapis.com/auth/drive']
+        _base_path = os.path.dirname(__file__)
+        _credential_path = os.path.join(_base_path, 'service_account.json')
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = _credential_path
 
+    def build(self):
+        creds = ServiceAccountCredentials.from_json_keyfile_name(os.getenv(
+            "GOOGLE_APPLICATION_CREDENTIALS"), self._SCOPES)
+        service = build('drive', 'v3', credentials=creds)
+        return service
 
-def __build_service(creds):
-    build_service = build('drive', 'v3', credentials=creds)
-    return build_service
+    def upload_file(self, file, file_name):
+        # creds = __authenticate()
+        # service = __build_service(creds)
+        service = GoogleDriveService().build()
+        uploaded_file = file
+        buffer = io.BytesIO()  # creating a buffer memory
+        buffer.name = uploaded_file.filename
+        uploaded_file.save(buffer)  # saving file to buffer memory
+        media = MediaIoBaseUpload(buffer, mimetype=uploaded_file.mimetype, resumable=True)
+        returned_fields = "id, name, mimeType, webViewLink, exportLinks"
+        request = service.files().create(
+            media_body=media,
+            body={'name': file_name, 'parents': [PARENT_FOLDER_ID]},
+            fields=returned_fields
+        ).execute()
+        file_id = request.get("id")
+        print(request)
+        return file_id
 
-
-def upload_file(file, file_name):
-    creds = __authenticate()
-    service = __build_service(creds)
-    uploaded_file = file
-    buffer = io.BytesIO()
-    buffer.name = uploaded_file.filename
-    uploaded_file.save(buffer)
-    media = MediaIoBaseUpload(buffer, mimetype=uploaded_file.mimetype, resumable=True)
-    request = service.files().create(
-        media_body=media,
-        body={'name': file_name, 'parents': [PARENT_FOLDER_ID]},
-        fields='id'
-    ).execute()
-    file_id = request.get("id")
-    return file_id
-
-
-def delete_file(file_id):
-    creds = __authenticate()
-    service = __build_service(creds)
-    service.files().delete(fileId=file_id).execute()
+    def delete_file(self, file_id):
+        service = GoogleDriveService().build()
+        service.files().delete(fileId=file_id).execute()

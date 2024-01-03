@@ -1,14 +1,14 @@
 from flask import Flask, render_template, jsonify, redirect, url_for, request
 from carreiras_python import app
-from carreiras_python.database import load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications, jobs_search
+from carreiras_python.database import (load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications,
+                                       jobs_search)
 from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs
 from datetime import datetime
-from .gdrive_api_methods import upload_file
+from .gdrive_api_methods import GoogleDriveService
 
-
-# Passando informações para a navbar
+# Making FormSearchJobs available to NAVBAR (all templates, actually)
 @app.context_processor
-def sender():
+def inject_search_form():
     form = FormSearchJobs()
     return dict(form=form)
 
@@ -30,7 +30,7 @@ def show_job(id):
     job = load_job_from_db(id)
     if not job:
         return "Vaga não encontrada", 404
-    return render_template("job_page.html", vaga=job)
+    return render_template("job_page.html", job=job)
 
 
 @app.route("/inscricao/<id>", methods=["GET", "POST"])
@@ -42,7 +42,8 @@ def apply_to_job(id):
         resume_file = formApplication.resume.data
         date = datetime.now()
         file_name = formApplication.email.data + "_" + date.strftime("%Y%m%d%H%M%S") + "_jobID_" + str(job['id'])
-        uploaded_resume_id = upload_file(resume_file, file_name)
+        # uploaded_resume_id = upload_file(resume_file, file_name)
+        uploaded_resume_id = GoogleDriveService().upload_file(resume_file, file_name)
         add_application_to_db(id, data, date, job['title'], uploaded_resume_id)
         return render_template("apply_confirmation.html", application=data, job=job, date=date)
     return render_template("application_form.html", form=formApplication, job=job)

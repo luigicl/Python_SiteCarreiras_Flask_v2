@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>{{vaga.title}} - Carreiras Python</title>
+    <title>{{job.title}} - Carreiras Python</title>
     {% include 'includes/bootstrap.html' %}
 </head>
 <body>
@@ -10,27 +10,27 @@
     {% include "includes/banner.html" %}
     <div class="container">
     <h1 class="text-center mt-3 mb-0">Detalhes da Vaga</h1>
-        <p class="text-center mb-5"><i>v{{vaga.id}}</i></p>
-        <h2 class="mb-5">{{vaga.title}}</h2>
+        <p class="text-center mb-5"><i>v{{job.id}}</i></p>
+        <h2 class="mb-5">{{job.title}}</h2>
         <h3>Responsabilidades</h3>
         <ul class="lead mb-5">
-            {% for line in vaga.responsabilities.split(".") %}
+            {% for line in job.responsabilities.split(".") %}
             <li>{{line}}</li>
             {% endfor %}
         </ul>
         <h3>Requisitos</h3>
         <ul class="lead mb-5">
-            {% for line in vaga.requirements.split(".") %}
+            {% for line in job.requirements.split(".") %}
             <li>{{line}}</li>
             {% endfor %}
         </ul>
         <h3>Localidade</h3>
-        <p class="lead mb-5">{{vaga.location}}</p>
+        <p class="lead mb-5">{{job.location}}</p>
         <h3>Salário</h3>
-        <p class="lead mb-5">{{vaga.currency}} {{vaga.salary}}</p>
+        <p class="lead mb-5">{{job.currency}} {{job.salary}}</p>
 
         <div class="text-center">
-            <a href="{{ url_for('apply_to_job', id=vaga.id) }}" type="button" class="btn btn-primary mb-4">Inscrever-se</a>
+            <a href="{{ url_for('apply_to_job', id=job.id) }}" type="button" class="btn btn-primary mb-4">Inscrever-se</a>
             <a href="/#vagas_abertas" type="button" class="btn btn-outline-primary mb-4">Voltar</a>
         </div>
 
