@@ -1,8 +1,9 @@
-from flask import Flask, render_template, jsonify, redirect, url_for, request
+import json
+from flask import Flask, render_template, jsonify, redirect, url_for, request, session
 from carreiras_python import app
 from carreiras_python.database import (load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications,
-                                       jobs_search)
-from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs
+                                       jobs_search, add_new_job_to_db, delete_a_job, load_applications_from_db)
+from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs, FormCreateJob, FormDelete
 from datetime import datetime
 from carreiras_python.gdrive_api_methods import GoogleDriveService
 
@@ -17,7 +18,42 @@ def inject_search_form():
 @app.route("/")
 def homepage():
     jobs_list = load_jobs_from_db()
-    return render_template("home.html", jobs=jobs_list)
+    return render_template("home.html", jobs=jobs_list, button_name="Detalhes")
+
+
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+
+@app.route("/admin/cadastrar_vaga", methods=["GET", "POST"])
+def create_job():
+    formCreateJob = FormCreateJob(currency=None)  # setting a default value when instantiating
+    if formCreateJob.validate_on_submit():
+        date = datetime.now()
+        add_new_job_to_db(formCreateJob, date)
+        message = "Vaga cadastrada com sucesso"
+        formCreateJob = FormCreateJob(formdata=None)
+        return render_template("create_job.html", form=formCreateJob, message=message)
+    return render_template("create_job.html", form=formCreateJob)
+
+
+@app.route("/admin/excluir_vaga", methods=["GET", "POST"])
+def jobs_to_delete():
+    jobs_list = load_jobs_from_db()
+    message = session.get('message', None)
+    session.pop('message', None)
+    return render_template("delete_job.html", jobs=jobs_list, button_name="Excluir",
+                           message=message)
+
+
+@app.route("/admin/excluir_vaga/excluir")
+def delete_job():
+    job_id = request.args.get("job_to_delete")
+    if job_id:
+        delete_a_job(job_id)
+        session['message'] = job_id
+        return redirect(url_for("jobs_to_delete"))
 
 
 @app.route("/vagas")
@@ -58,7 +94,7 @@ def search_applications():
         email = request.form['email']  # executa após submeter o formulário
         applications = my_applications(email)
         return render_template("my_applications.html", applications=applications)
-    return render_template("load_applications.html", form=formSearchApplications)
+    return render_template("load_my_applications.html", form=formSearchApplications)
 
 
 def my_applications(email):
@@ -75,3 +111,9 @@ def search_jobs():
         return render_template('search.html', form=form, jobs=jobs)
     if not form.validate_on_submit():
         return render_template('search.html', form=form, jobs="")
+
+
+@app.route("/admin/candidaturas")
+def list_applications():
+    applications_list = load_applications_from_db()
+    return render_template("load_all_applications.html", applications=applications_list)

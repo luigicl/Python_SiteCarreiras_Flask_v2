@@ -1,0 +1,30 @@
+<tr>
+  <td class="text-center ">{{application.job_id}}</td>
+  <td class="">{{application.job_title}}</td>
+  <td class="">{{application.full_name}}</td>
+  <td class="">{{application.email}}</td>
+  <td class="">
+    {% if application.linkedin_url %}
+      <a href="{{application.linkedin_url}}" target="_blank">Linkedin</a>
+    {% endif %}
+  </td>
+  <td class="">
+    {% if application.github_url %}
+      <a href="{{application.github_url}}" target="_blank">Github</a>
+    {% endif %}
+  </td>
+  <td class="">{{application.comments}}</td>
+  <td class="">
+    {% if application.resume_id %}
+      <div class="text-center">
+        <a href="https://drive.google.com/file/d/{{application.resume_id}}/view" target="_blank">
+        <img style="width:40px; height:40px;" src="{{ url_for('static', filename='PDF.png') }}" title="Currículo"/>
+        </a>
+      </div>
+    {% endif %}
+  </td>
+  <td class="">{{application.created_at.strftime("%d/%m/%Y às %H:%M")}}</td>
+</tr>
+
+
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Excluir Vaga - Carreiras Python</title>
+    {% include 'includes/bootstrap.html' %}
+</head>
+<body>
+    {% include "includes/navbar.html" %}
+    {% include "includes/banner.html" %}
+    <div class="container">
+        <h2 class="text-center mt-3 mb-4">Excluir vaga</h2>
+        {% block formulario %}
+            <form class= method="POST"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
+                    <div class="col-lg-8 col-md-6 col-sm-8 col-xs-9">
+                        <div class="text-center">
+                            {% if message %}
+                                <p style="color: blue">Vaga nº {{message}} foi excluída com sucesso.</p>
+                            {% endif %}
+                        </div>
+<!--                        <h3 class="text-center mt-5 mb-5" >Vagas Abertas</h3>-->
+                        <p>
+
+                            {% for job in jobs %}
+                                {% include 'includes/job_item_delete.html' %}
+                            {% endfor %}
+                        </p>
+                        <div class="text-center mt-5">
+                            <a href="/admin" type="button" class="btn btn-lg btn-primary text-center mb-4">Voltar</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
+                </div>
+            </form>
+        {% endblock %}
+
+
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Launch static backdrop modal
+            </button>
+        {% if job_to_delete %}
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmação de exclusão</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Deseja realmente excluir a vaga nº {{job_id}} - {{job.title}}</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Confirmar exclusão</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+
+
+    </div>
+</body>

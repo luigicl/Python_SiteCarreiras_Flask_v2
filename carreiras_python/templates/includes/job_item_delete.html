@@ -29,9 +29,9 @@
         {% if button_name == "Detalhes" %}
             <a href="/vaga/{{job.id}}" type="button" class="btn btn-outline-primary">{{button_name}}</a>
         {% endif %}
-        {% if button_name == "Excluir" %}
-            <a href="/admin/excluir_vaga?job_to_delete={{job.id}}" class="btn btn-outline-primary">{{button_name}}</a>
 
+        {% if button_name == "Excluir" %}
+            <a href="/admin/excluir_vaga/excluir?job_to_delete={{job.id}}" type="button" class="btn btn-outline-primary">{{button_name}}</a>
         {% endif %}
 
     </div>

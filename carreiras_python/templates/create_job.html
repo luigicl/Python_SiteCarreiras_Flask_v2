@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Vaga - Carreiras Python</title>
+    {% include 'includes/bootstrap.html' %}
+</head>
+<body>
+    {% include "includes/navbar.html" %}
+    {% include "includes/banner.html" %}
+    <div class="container">
+        <h3 class="text-center mt-3 mb-4">Cadastrar nova vaga</h3>
+        {% block formulario %}
+            <form class="lead" method="POST"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
+                    <div class="col-lg-8 col-md-6 col-sm-8 col-xs-9">
+                        <div class="text-center">
+                            {% if message %}
+                                <p style="color: blue">{{ message}}! </p>
+                            {% endif %}
+                        </div>
+                        {{ form.csrf_token }}  <!-- trava de segurança contra ataques, obrigatório carregar no flask -->
+                            {{ form.job_title.label(class="form-label fw-bold") }}*
+                            {{ form.job_title(class="form-control mb-4") }}
+                            {{ form.responsabilities.label(class="form-label fw-bold") }}*
+                            {{ form.responsabilities(class="form-control mb-0", rows="6") }}
+                                <div id="passwordHelpBlock" class="text-end form-text mb-4">
+                                    Máximo de 2000 caracteres.
+                                </div>
+                            {{ form.requirements.label(class="form-label fw-bold") }}*
+                            {{ form.requirements(class="form-control mb-0", rows="6") }}
+                                <div id="passwordHelpBlock2" class="text-end form-text mb-4">
+                                    Máximo de 2000 caracteres.
+                                </div>
+                            {{ form.location.label(class="form-label fw-bold") }}*
+                            {{ form.location(class="form-control mb-4", placeholder="Cidade/Estado - País") }}
+                            {{ form.salary.label(class="form-label fw-bold") }} <small><i>(número inteiro)</i></small>
+                            {{ form.salary(class="form-control mb-4", placeholder="5000") }}
+                            {{ form.currency.label(class="form-label fw-bold") }}
+                            {{ form.currency(class="form-select dropdown-toggle mb-4") }}
+                            {{ form.confirmation_button(class="btn btn-primary mb-4") }}
+                            <a href="/admin" type="button" class="btn btn-outline-primary text-center mb-4">Voltar</a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
+                </div>
+            </form>
+        {% endblock %}
+    </div>
+</body>

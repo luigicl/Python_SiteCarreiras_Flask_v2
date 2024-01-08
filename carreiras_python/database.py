@@ -39,19 +39,63 @@ def load_job_from_db(id):
             return rows[0]._asdict()
 
 
+def load_applications_from_db():
+    with engine.connect() as conn:
+        applications = []
+        result = conn.execute(text("SELECT * from applications ORDER BY job_title, full_name, created_at"))
+        for row in result.all():
+            applications.append(row._asdict())
+        return applications
+
+
 def add_application_to_db(job_id, application, apply_date, job_title, uploaded_resume_id):
-    chars_to_remove = ["'", '"']
-    comments = str(application.comments.data)
-    for char in chars_to_remove:
-        comments = comments.replace(char, "")
     with engine.connect() as conn:
         query = text(
             f"INSERT INTO applications (job_id, job_title, full_name, email, linkedin_url, github_url, comments,"
             f"resume_id, created_at, updated_at)"
-            f"VALUES ('{job_id}', '{job_title}', '{application.full_name.data}', '{application.email.data}',"
-            f"'{application.linkedin.data}', '{application.github.data}', '{comments}', '{uploaded_resume_id}', "
-            f"'{apply_date}', '{apply_date}')")
-        conn.execute(query)
+            f"VALUES (:job_id, :job_title, :full_name, :email, :linkedin_url, :github_url, :comments,"
+            f":resume_id, :created_at, :updated_at)")
+        conn.execute(query, {
+                    'job_id': job_id,
+                    'job_title': job_title,
+                    'full_name': application.full_name.data,
+                    'email': application.email.data,
+                    'linkedin_url': application.linkedin.data,
+                    'github_url': application.github.data,
+                    'comments': application.comments.data,
+                    'resume_id': uploaded_resume_id,
+                    'created_at': apply_date,
+                    'updated_at': apply_date
+                    })
+
+
+def add_new_job_to_db(formCreateJob, create_date):
+    with engine.connect() as conn:
+        query = text(
+            f"INSERT INTO jobs (title, location, salary, currency, responsabilities, requirements,"
+            f"created_at, updated_at) "
+            f"VALUES (:title, :location, :salary, :currency, :responsabilities, :requirements, :created_at, "
+            f":updated_at)")
+        conn.execute(query, {
+                    'title': formCreateJob.job_title.data,
+                    'location': formCreateJob.location.data,
+                    'salary': formCreateJob.salary.data,
+                    'currency': formCreateJob.currency.data,
+                    'responsabilities': formCreateJob.responsabilities.data,
+                    'requirements': formCreateJob.requirements.data,
+                    'created_at': create_date,
+                    'updated_at': create_date
+                    })
+
+
+def delete_a_job(job_id):
+    with engine.connect() as conn:
+        query = text(
+            f"DELETE FROM jobs WHERE id = :id"
+            )
+        conn.execute(query, {
+                    'id': job_id,
+                    })
 
 
 def load_applications(email):
