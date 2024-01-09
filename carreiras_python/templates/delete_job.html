@@ -12,9 +12,6 @@
         <h2 class="text-center mt-3 mb-4">Excluir vaga</h2>
         {% block formulario %}
             <form class= method="POST"> <!-- quando temos um formulário em uma página tem que adicionar o método POST-->
-                <div class="row">
-                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
-                    <div class="col-lg-8 col-md-6 col-sm-8 col-xs-9">
                         <div class="text-center">
                             {% if message %}
                                 <p style="color: blue">Vaga nº {{message}} foi excluída com sucesso.</p>
@@ -24,15 +21,12 @@
                         <p>
 
                             {% for job in jobs %}
-                                {% include 'includes/job_item_delete.html' %}
+                                {% include 'includes/job_item.html' %}
                             {% endfor %}
                         </p>
                         <div class="text-center mt-5">
                             <a href="/admin" type="button" class="btn btn-lg btn-primary text-center mb-4">Voltar</a>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-1"></div>
-                </div>
             </form>
         {% endblock %}
     </div>

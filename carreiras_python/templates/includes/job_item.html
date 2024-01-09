@@ -1,8 +1,6 @@
 <div class="row mb-4">
-    <div class="col-2">
-
-    </div>
-    <div class="col-6">
+    <div class="d-grid col-lg-2 col-md-1 col-sm-0 col-0 mx-auto"></div>
+    <div class="d-grid col-xl-6 col-lg-5 col-md-7 col-sm-9 col-9 mx-auto">
         <h4 style="color: rgb(100,100,100); margin-top: 4px; margin-bottom: 2px;">
         {{job.title}}
         </h4>
@@ -25,14 +23,37 @@
             </div>
         {% endif %}
     </div>
-    <div class="col-4 mt-4">
+    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3 col-3 mx-auto mt-2">
         {% if button_name == "Detalhes" %}
             <a href="/vaga/{{job.id}}" type="button" class="btn btn-outline-primary">{{button_name}}</a>
         {% endif %}
+
         {% if button_name == "Excluir" %}
-            <a href="/admin/excluir_vaga?job_to_delete={{job.id}}" class="btn btn-outline-primary">{{button_name}}</a>
+            <!-- Button to trigger modal -->
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{job.id}}">
+                Excluir Vaga
+            </button>
 
         {% endif %}
+    </div>
+    <div class="d-grid col-xl-2 col-lg-2 col-md-1 col-sm-0 col-0 mx-auto"></div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="deleteConfirmationModal{{job.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmação</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Deseja realmente excluir a vaga nº <strong> {{job.id}} - {{job.title}}</strong>?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <a href="/admin/excluir_vaga/excluir?job_to_delete={{job.id}}" type="button" class="btn btn-danger">Confirmar exclusão</a>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
