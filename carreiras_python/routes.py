@@ -132,7 +132,7 @@ def search_jobs():
     if form.validate_on_submit():
         searched_terms = form.search.data
         jobs = jobs_search(searched_terms)
-        return render_template('search.html', form=form, jobs=jobs)
+        return render_template('search.html', form=form, jobs=jobs, button_name="Detalhes")
     if not form.validate_on_submit():
         return render_template('search.html', form=form, jobs="")
 
