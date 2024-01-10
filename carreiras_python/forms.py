@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, SubmitField, TextAreaField, FileField, SelectField, IntegerField
 from wtforms.validators import DataRequired, Email, ValidationError, URL, length, Optional
-from carreiras_python.database import load_applications
+from carreiras_python.database import load_my_applications
 
 
 class FormApplication(FlaskForm):
@@ -21,7 +21,7 @@ class FormSearchApplications(FlaskForm):
     confirmation_button = SubmitField("Buscar")
 
     def validate_email(self, email):  # o nome da função tem que ser validate_nomedocampo a ser validado
-        if not len(load_applications(email.data)):
+        if not len(load_my_applications(email.data)):
             raise ValidationError("Não inscrições para o e-mail informado.")
 
 

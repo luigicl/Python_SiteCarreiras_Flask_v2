@@ -1,8 +1,50 @@
-<tr>
-  <td class="text-center col-3">{{application.job_id}}</td>
-  <td class="col-5">{{application.job_title}}</td>
-  <td class="col-4">{{application.created_at.strftime("%d/%m/%Y às %H:%M")}}</td>
+<tr class="align-middle">
+  <td class="text-center col-0 col-xxl-2"></td>
+  <td class="text-center col-2 col-xxl-1">
+    <a href="/vaga/{{application.job_id}}" target="_blank">{{application.job_id}}</a>
+  </td>
+  <td class="col-5 col-xxl-4">{{application.job_title}}</td>
+  <td class="col-3 col-xxl-2 text-center">{{application.created_at.strftime("%d/%m/%Y às %H:%M")}}</td>
+  <td class="col-2 col-xxl-1 align-middle">
+    {% if application.resume_id %}
+        <div class="text-center">
+          <a href="https://drive.google.com/file/d/{{application.resume_id}}/view" target="_blank">
+          <img style="width:30px; height:30px;" src="{{ url_for('static', filename='PDF.png') }}" title="Currículo"/>
+          </a>
+        </div>
+      {% endif %}
+  </td>
+  <td class="text-center col-0 col-xxl-2"></td>
 </tr>
+<tr class="mb-3">
+  <td class="text-center mb-3" style="border-bottom-width:4px" colspan="6">
+    <!--<a href="/admin" type="button" class="btn btn-sm btn-outline-danger text-center d-grid gap-2 col-3 mx-auto mb-2 mt-0">Remover inscrição</a>-->
+    <button type="button" class="btn btn-sm btn-outline-danger text-center d-grid gap-2 col-3 mx-auto mb-2 mt-0" data-bs-toggle="modal" data-bs-target="#deleteApplicationModal{{application.id}}">
+        Remover inscrição
+    </button>
+
+  </td>
+</tr>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteApplicationModal{{application.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmação</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Deseja realmente excluir sua inscrição para a vaga nº <strong> {{application.job_id}} - {{application.job_title}}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <a href="/admin/excluir_inscricao/excluir?application_to_delete={{application.id}}&resume_id={{application.resume_id}}" type="button" class="btn btn-danger">Confirmar exclusão</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 

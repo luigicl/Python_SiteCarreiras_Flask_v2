@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, text
 import os
 from dotenv import load_dotenv
 from .helper_methods import normalize_searched_terms
+from carreiras_python.gdrive_api_methods import GoogleDriveService
 
 load_dotenv()
 
@@ -48,6 +49,29 @@ def load_applications_from_db():
         return applications
 
 
+def load_my_applications(email):
+    with engine.connect() as conn:
+        applications = []
+        result = conn.execute(text(f"SELECT * FROM applications WHERE email = '{email}' ORDER BY created_at DESC"))
+        for application in result.all():
+            applications.append(application._asdict())
+        return applications
+
+
+def load_application_by_id(id):
+    with engine.connect() as conn:
+        query = text(
+            f"SELECT * FROM applications WHERE id = :id"
+            )
+        result = conn.execute(query, {
+                    'id': id,
+                    })
+        applications = []
+        for application in result.all():
+            applications.append(application._asdict())
+        return applications
+
+
 def add_application_to_db(job_id, application, apply_date, job_title, uploaded_resume_id):
     with engine.connect() as conn:
         query = text(
@@ -88,25 +112,6 @@ def add_new_job_to_db(formCreateJob, create_date):
                     })
 
 
-def delete_a_job(job_id):
-    with engine.connect() as conn:
-        query = text(
-            f"DELETE FROM jobs WHERE id = :id"
-            )
-        conn.execute(query, {
-                    'id': job_id,
-                    })
-
-
-def load_applications(email):
-    with engine.connect() as conn:
-        applications = []
-        result = conn.execute(text(f"SELECT * FROM applications WHERE email = '{email}' ORDER BY created_at DESC"))
-        for application in result.all():
-            applications.append(application._asdict())
-        return applications
-
-
 def jobs_search(searched_terms):
     search_string = normalize_searched_terms(searched_terms)
     if search_string:
@@ -120,4 +125,23 @@ def jobs_search(searched_terms):
         return []
 
 
+def delete_a_job(job_id):
+    with engine.connect() as conn:
+        query = text(
+            f"DELETE FROM jobs WHERE id = :id"
+            )
+        conn.execute(query, {
+                    'id': job_id,
+                    })
 
+
+def delete_a_application(application_id, resume_id):
+    if resume_id:
+        GoogleDriveService().delete_file(resume_id)
+    with engine.connect() as conn:
+        query = text(
+            f"DELETE FROM applications WHERE id = :id"
+            )
+        conn.execute(query, {
+                    'id': application_id,
+                    })

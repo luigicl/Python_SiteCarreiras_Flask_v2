@@ -9,16 +9,29 @@
         {% include "includes/navbar.html" %}
         {% include "includes/banner.html" %}
         <div class="container">
-            <h3 class="text-center mt-3 mb-5">Inscrições de <b>{{applications[0].full_name}}</b> </h3>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th class="text-center col-3" scope="col">Vaga Nº</th>
-                  <th class="col-5" scope="col">Título da Vaga</th>
-                  <th class="col-4" scope="col">Data de Inscrição</th>
+            <h3 class="text-center mt-3 mb-4">Inscrições de <b>{{applications[0].full_name}}</b> </h3>
+
+
+            <div class="text-center">
+                {% if message %}
+                    <p style="color: blue">{{message}}</p>
+                {% endif %}
+            </div>
+
+
+
+            <table class="table table-borderless">
+              <thead style="border-bottom-width:2px; border-bottom-color:black;">
+                <tr class="align-middle">
+                  <th class="text-center col-0 col-xxl-2" scope="col"></th>
+                  <th class="text-center col-xxl-1 col-1" scope="col">Vaga Nº</th>
+                  <th class="col-5 col-xxl-4" scope="col">Título da Vaga</th>
+                  <th class="col-3 col-xxl-2 text-center" scope="col">Data de Inscrição</th>
+                  <th class="col-2 col-xxl-1 text-center" scope="col">Currículo</th>
+                  <th class="col-0 col-xxl-2" scope="col"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="table-group-divider">
                 {% for application in applications %}
                     {% include 'includes/application_item.html' %}
                 {% endfor %}

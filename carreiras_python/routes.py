@@ -1,8 +1,9 @@
 import json
 from flask import Flask, render_template, jsonify, redirect, url_for, request, session
 from carreiras_python import app
-from carreiras_python.database import (load_jobs_from_db, load_job_from_db, add_application_to_db, load_applications,
-                                       jobs_search, add_new_job_to_db, delete_a_job, load_applications_from_db)
+from carreiras_python.database import (load_jobs_from_db, load_job_from_db, add_application_to_db, load_my_applications,
+                                       jobs_search, add_new_job_to_db, delete_a_job, delete_a_application,
+                                       load_applications_from_db, load_application_by_id)
 from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs, FormCreateJob, FormDelete
 from datetime import datetime
 from carreiras_python.gdrive_api_methods import GoogleDriveService
@@ -56,6 +57,22 @@ def delete_job():
         return redirect(url_for("jobs_to_delete"))
 
 
+@app.route("/admin/excluir_inscricao/excluir")
+def delete_application():
+    application_id = request.args.get("application_to_delete")
+    resume_id = request.args.get("resume_id")
+    if application_id:
+        application = load_application_by_id(application_id)
+        email = application[0]['email']
+        delete_a_application(application_id, resume_id)
+        applications = my_applications(email)
+        if applications:
+            message = "Inscrição removida com sucesso."
+            return render_template("my_applications.html", applications=applications, message=message)
+        else:
+            return redirect(url_for("search_applications"))
+
+
 @app.route("/vagas")
 def list_jobs():
     jobs_list = load_jobs_from_db()
@@ -90,15 +107,17 @@ def apply_to_job(id):
 @app.route("/buscar_inscricoes", methods=["GET", "POST"])
 def search_applications():
     formSearchApplications = FormSearchApplications()
+    message = session.get('message', None)
+    session.pop('message', None)
     if formSearchApplications.validate_on_submit():
         email = request.form['email']  # executa após submeter o formulário
         applications = my_applications(email)
         return render_template("my_applications.html", applications=applications)
-    return render_template("load_my_applications.html", form=formSearchApplications)
+    return render_template("load_my_applications.html", form=formSearchApplications, message=message)
 
 
 def my_applications(email):
-    applications = load_applications(email)
+    applications = load_my_applications(email)
     return applications
 
 

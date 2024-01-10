@@ -30,7 +30,7 @@
 
         {% if button_name == "Excluir" %}
             <!-- Button to trigger modal -->
-            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{job.id}}">
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteJobModal{{job.id}}">
                 Excluir Vaga
             </button>
 
@@ -39,7 +39,7 @@
     <div class="d-grid col-xl-2 col-lg-2 col-md-1 col-sm-0 col-0 mx-auto"></div>
 
     <!-- Modal -->
-    <div class="modal fade" id="deleteConfirmationModal{{job.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteJobModal{{job.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
