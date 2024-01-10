@@ -145,3 +145,19 @@ def delete_a_application(application_id, resume_id):
         conn.execute(query, {
                     'id': application_id,
                     })
+
+
+def check_application(job_id, email):
+    """ Checks if user has already subscribed for a given job"""
+    with engine.connect() as conn:
+        query = text(
+            f"SELECT * FROM applications WHERE job_id = :job_id AND email = :email"
+            )
+        result = conn.execute(query, {
+                    'job_id': job_id,
+                    'email': email,
+                    })
+        applications = []
+        for application in result.all():
+            applications.append(application._asdict())
+        return applications

@@ -3,10 +3,13 @@ from flask import Flask, render_template, jsonify, redirect, url_for, request, s
 from carreiras_python import app
 from carreiras_python.database import (load_jobs_from_db, load_job_from_db, add_application_to_db, load_my_applications,
                                        jobs_search, add_new_job_to_db, delete_a_job, delete_a_application,
-                                       load_applications_from_db, load_application_by_id)
+                                       load_applications_from_db, load_application_by_id, check_application)
 from carreiras_python.forms import FormApplication, FormSearchApplications, FormSearchJobs, FormCreateJob, FormDelete
 from datetime import datetime
 from carreiras_python.gdrive_api_methods import GoogleDriveService
+
+
+from wtforms.validators import ValidationError
 
 
 # Making FormSearchJobs available to NAVBAR (all templates, actually)
@@ -92,15 +95,20 @@ def apply_to_job(id):
     job = load_job_from_db(id)
     formApplication = FormApplication()
     if formApplication.validate_on_submit():  # executa após submeter o formulário
-        resume_file = formApplication.resume.data
-        date = datetime.now()
-        file_name = formApplication.email.data + "_" + date.strftime("%Y%m%d%H%M%S") + "_jobID_" + str(job['id'])
-        if resume_file:
-            uploaded_resume_id = GoogleDriveService().upload_file(resume_file, file_name)
+        is_subscribed = check_application(id, formApplication.email.data)
+        if is_subscribed:
+            message = "Já existe uma inscrição para esta vaga com este e-mail."
+            return render_template("application_form.html", form=formApplication, job=job, message=message)
         else:
-            uploaded_resume_id = ""
-        add_application_to_db(id, formApplication, date, job['title'], uploaded_resume_id)
-        return render_template("apply_confirmation.html", application=formApplication, job=job, date=date)
+            resume_file = formApplication.resume.data
+            date = datetime.now()
+            file_name = formApplication.email.data + "_" + date.strftime("%Y%m%d%H%M%S") + "_jobID_" + str(job['id'])
+            if resume_file:
+                uploaded_resume_id = GoogleDriveService().upload_file(resume_file, file_name)
+            else:
+                uploaded_resume_id = ""
+            add_application_to_db(id, formApplication, date, job['title'], uploaded_resume_id)
+            return render_template("apply_confirmation.html", application=formApplication, job=job, date=date)
     return render_template("application_form.html", form=formApplication, job=job)
 
 
