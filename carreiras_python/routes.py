@@ -9,9 +9,6 @@ from datetime import datetime
 from carreiras_python.gdrive_api_methods import GoogleDriveService
 
 
-from wtforms.validators import ValidationError
-
-
 # Making FormSearchJobs available to NAVBAR (all templates, actually)
 @app.context_processor
 def inject_search_form():

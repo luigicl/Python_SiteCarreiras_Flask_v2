@@ -9,17 +9,13 @@
         {% include "includes/navbar.html" %}
         {% include "includes/banner.html" %}
         <div class="container">
-            <h3 class="text-center mt-3 mb-4">Inscrições de <b>{{applications[0].full_name}}</b> </h3>
-
-
+            <h3 class="text-center mt-3">Inscrições de <b>{{applications[0].full_name}}</b> </h3>
+            <p class="text-center mb-5"><i>{{applications[0].email}}</i></p>
             <div class="text-center">
                 {% if message %}
                     <p style="color: blue">{{message}}</p>
                 {% endif %}
             </div>
-
-
-
             <table class="table table-borderless">
               <thead style="border-bottom-width:2px; border-bottom-color:black;">
                 <tr class="align-middle">
@@ -37,8 +33,6 @@
                 {% endfor %}
               </tbody>
             </table>
-
-
         </div>
         <br><br>
         {% include "includes/footer.html" %}
